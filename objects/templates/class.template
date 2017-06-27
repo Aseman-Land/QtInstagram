@@ -1,0 +1,18 @@
+class %name : public QObject
+{
+public:
+    %name(QObject *parent = 0) : QObject(parent){
+%presets
+    }
+    ~%name(){}
+
+%body
+    void operator= ( %name *another) {
+%equals
+    }
+%notifies
+private:
+%variables
+};
+
+%next

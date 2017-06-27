@@ -1,0 +1,8 @@
+%includes
+%classes
+
+static bool initialize() {
+%intializes
+    return true;
+}
+static bool initialized = initialize();
