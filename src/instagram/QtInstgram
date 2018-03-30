@@ -1,0 +1,2 @@
+#include "instagram.h"
+#include "instagramquery.h"

@@ -1,3 +1,0 @@
-    void set%cname(%type value) {
-        _%name = value;
-    }

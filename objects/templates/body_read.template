@@ -1,7 +1,0 @@
-    %type %name() const {
-        return _%name;
-    }
-
-%next_write
-
-%body

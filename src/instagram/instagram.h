@@ -24,9 +24,13 @@ public:
     QUrl accessTokenUrl(const QString &redirect_uri);
     void setAccessToken(const QString &accessToken);
 
-    void mediaReadComments(const QString &mediaId, Callback<QVariant> callback);
+    void mediaReadComments(const QString &mediaId, Callback<QVariant> callback = Q_NULLPTR);
+    void mediaGetMedia(const QString &mediaId, Callback<QVariant> callback = Q_NULLPTR);
 
-    void getMediaId(const QUrl &url, Callback<QString> callback);
+    void userReadMedias(const QString &userId = QStringLiteral("self"), qint32 count = 20, qint64 minId = 0, qint64 maxId = 0, Callback<QVariant> callback = Q_NULLPTR);
+    void userGetInfo(const QString &userId = QStringLiteral("self"), Callback<QVariant> callback = Q_NULLPTR);
+
+    void search(const QString &query, qint32 count = 20, Callback<QVariant> callback = Q_NULLPTR);
 
 protected:
     QNetworkAccessManager *networkAccessManager() const;

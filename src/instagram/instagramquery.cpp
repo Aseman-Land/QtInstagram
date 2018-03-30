@@ -17,6 +17,7 @@ public:
     QString method;
 
     QPointer<Instagram> instagram;
+    QByteArray buffer;
 };
 
 InstagramQuery::InstagramQuery(const QString &method, Instagram *parent) :
@@ -86,7 +87,7 @@ void InstagramQuery::exec()
     for(const QPair<QString, QString> &pair: p->values)
         query.addQueryItem(pair.first, pair.second);
 
-    QUrl url("https://api.instagram.com/v1" + method);
+    QUrl url( QStringLiteral("https://api.instagram.com/v1") + method);
     url.setQuery(query);
 
     sendRequest(url, [this](const QByteArray &data){
@@ -98,23 +99,28 @@ void InstagramQuery::getMediaId(const QUrl &url, std::function<void (const QStri
 {
     sendRequest(url, [this, callback](const QByteArray &data){
         QVariantMap res = QJsonDocument::fromJson(data).toVariant().toMap();
-        const QString mediaId = res.value("media_id").toString();
-        callback( mediaId.left(mediaId.indexOf("_")) );
+        const QString mediaId = res.value( QStringLiteral("media_id")).toString();
+        callback( mediaId.left(mediaId.indexOf( QStringLiteral("_") )) );
     });
 }
 
 void InstagramQuery::sendRequest(const QUrl &url, std::function<void (const QByteArray &)> callback)
 {
+    p->buffer.clear();
+
     QNetworkRequest request;
     request.setUrl(url);
 
     QNetworkReply *reply = p->instagram->networkAccessManager()->get(request);
     connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, &InstagramQuery::error);
     connect(reply, &QNetworkReply::sslErrors, this, &InstagramQuery::sslErrors);
-    connect(reply, &QNetworkReply::readyRead, this, [this, reply, callback](){
+    connect(reply, &QNetworkReply::readyRead, this, [this, reply](){
+        p->buffer += reply->readAll();
+    });
+    connect(reply, &QNetworkReply::finished, this, [this, reply, callback](){
         reply->deleteLater();
         deleteLater();
-        callback(reply->readAll());
+        callback(p->buffer);
     });
 }
 
