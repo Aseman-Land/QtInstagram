@@ -1,4 +1,4 @@
-# libqinstagram
+# QtInstagram
 It's an experimental library and Is under the development to work with instgram API using Qt libraries.
 It's free, opensource and released under the LGPL license.
 
