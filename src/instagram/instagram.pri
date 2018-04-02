@@ -1,7 +1,7 @@
 INCLUDEPATH += $$PWD
 DEPENDEPATH += $$PWD
 
-!build_telnet_lib:DEFINES += LIBQINSTAGRAM_LIBRARY
+!build_instagram_lib:DEFINES += LIBQINSTAGRAM_LIBRARY
 
 QT += network
 
