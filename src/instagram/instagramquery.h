@@ -6,7 +6,9 @@
 
 #include <functional>
 
-class InstagramQuery : public QObject
+#include "libqinstagram_global.h"
+
+class LIBQINSTAGRAMSHARED_EXPORT InstagramQuery : public QObject
 {
     Q_OBJECT
     class Private;
